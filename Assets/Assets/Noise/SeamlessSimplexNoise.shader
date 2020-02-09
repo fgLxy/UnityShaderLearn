@@ -31,48 +31,10 @@
                 return output;
             }
 
-            float fbm1(float2 p) {
-                float noise = 0;
-                float2 pos = p;
-                float w = 1.;
-                for (int i = 0; i < 5; i++) {
-                    noise += w*seamlessSimplexNoise2(pos,_Unit);
-                    w /= 2;
-                    pos *= 2;
-                }
-                return noise;
-            }
-
-            float fbm2(float2 p) {
-                float noise = 0;
-                float2 pos = p;
-                float w = 1.;
-                for (int i = 0; i < 5; i++) {
-                    noise += w*abs(seamlessSimplexNoise2(pos,_Unit));
-                    w /= 2;
-                    pos *= 2;
-                }
-                return noise;
-            }
-
-            float fbm3(float2 p) {
-                float noise = 0;
-                float2 pos = p;
-                float w = 1.;
-                for (int i = 0; i < 5; i++) {
-                    noise += w*abs(seamlessSimplexNoise2(pos,_Unit));
-                    w /= 2;
-                    pos *= 2;
-                }
-                return sin(p.x + noise);
-            }
+            
 
             float4 frag(v2f input):SV_TARGET {
-                return _Tint*(_Type == 1 ? seamlessSimplexNoise2(input.texcoord.xy,_Unit) :
-                    _Type == 2 ? fbm1(input.texcoord.xy) :
-                    _Type == 3 ? fbm2(input.texcoord.xy) :
-                    fbm3(input.texcoord.xy));
-
+                return _Tint*((seamlessSimplexNoise2(input.texcoord.xy,_Unit,_Type)+1)*.5);
             }
 
             ENDCG

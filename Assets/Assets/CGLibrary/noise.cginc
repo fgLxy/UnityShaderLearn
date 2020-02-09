@@ -105,12 +105,16 @@ float simplexNoise2(float2 p) {
 float simplexNoise4(float4 p) {
     float k1 = simplexK1(4);
     float k2 = simplexK2(4);
-
+    //p坐标转换到转换空间中
     float4 pt = simplexTransform(p, k1);
 
-    float singleArr[] = {pt.x,pt.y,pt.z,pt.w};
+    //转换空间中的索引向量，指明在哪个网格中
+    float4 pti = floor(pt);
+    //将转换空间中的网格内偏移向量转换到原空间
+    float4 pf = p - simplexTransform(pti, k2);
+    float singleArr[] = {pf.x,pf.y,pf.z,pf.w};
     int sortIdx[4] = {1,2,3,4};
-    //排序
+    //排序确定各个维度大小关系。方便后续判断单行的边
     for (int i = 0; i < 3; i++) {
         for (int j = i + 1; j < 4; j++) {
             if (singleArr[i] < singleArr[j]) {
@@ -123,13 +127,15 @@ float simplexNoise4(float4 p) {
             }
         }
     }
-
+    //起始顶点。坐标为转换空间中的坐标
     float4 o = float4(0.,0.,0.,0.);
-    float4 cur = o;
+    float4 cur = float4(o);
+    //转换空间的单形顶点
     float4 vertexArr[5];
-    vertexArr[0] = o;
+    vertexArr[0] = float4(o);
+    vertexArr[4] = float4(1.,1.,1.,1.);
     //找出当前点所在单形的所有组成顶点
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         if (sortIdx[i] == 1) {
             cur += float4(1,0,0,0);
         }
@@ -142,32 +148,74 @@ float simplexNoise4(float4 p) {
         else {
             cur += float4(0,0,0,1);
         }
-        vertexArr[i + 1] = cur;
+        vertexArr[i + 1] = float4(cur);
     }
-    //索引向量，可判断在哪个单形中
-    float4 pi = floor(pt);
-    float4 pf = p - simplexTransform(pi, k2);
+    
     //计算h
     float hArr[5];
-    float dist[5];
+    float4 dist[5];
     for (int i = 0; i < 5; i++) {
+        //网格内偏移到顶点的距离向量，转换回源空间
         dist[i] = pf - simplexTransform(vertexArr[i], k2);
-        hArr[i] = max(0.5 - dot(dist[i],dist[i]), 0.);
+        //计算该顶点距离的h分量
+        hArr[i] = max(0.6 - dot(dist[i],dist[i]), 0.);
     }
     float result = 0.;
     // (r^2 - dist^2)^4 * dot(dist, grad); 
     for (int i = 0; i < 5; i++) {
-        result += hArr[i]*hArr[i]*hArr[i]*hArr[i]*dot(dist[i], hash44(i+vertexArr[i]));
+        //转换空间索引坐标+网格顶点坐标，可以计算出真正的转换空间网格顶点坐标,以此获取梯度向量
+        result += hArr[i]*hArr[i]*hArr[i]*hArr[i]*dot(dist[i], hash44(pti+vertexArr[i]));
     }
-    return 27.*result;
+    return result*27;
 }
 
-float seamlessSimplexNoise2(float2 p,float unit) {
-    float nx = sin(p.x*2.*PI)*unit/(2.0*PI);
-    float ny = sin(p.y*2.*PI)*unit/(2.0*PI);
-    float nz = cos(p.x*2.*PI)*unit/(2.0*PI);
-    float nw = cos(p.y*2.*PI)*unit/(2.0*PI);
-    return simplexNoise4(float4(nx,ny,nz,nw));
+float simplexfbm4d1(float4 p) {
+    float noise = 0;
+    float4 pos = p;
+    float w = 1.;
+    for (int i = 0; i < 5; i++) {
+        noise += w*simplexNoise4(pos);
+        w /= 2;
+        pos *= 2;
+    }
+    return noise;
+}
+
+float simplexfbm4d2(float4 p) {
+    float noise = 0;
+    float4 pos = p;
+    float w = 1.;
+    for (int i = 0; i < 5; i++) {
+        noise += w*abs(simplexNoise4(pos));
+        w /= 2;
+        pos *= 2;
+    }
+    return noise;
+}
+
+float simplexfbm4d3(float4 p) {
+    float noise = 0;
+    float4 pos = p;
+    float w = 1.;
+    for (int i = 0; i < 5; i++) {
+        noise += w*abs(simplexNoise4(pos));
+        w /= 2;
+        pos *= 2;
+    }
+    return sin(p.x + noise);
+}
+
+
+float seamlessSimplexNoise2(float2 p,float unit,int type) {
+    float nx = cos(p.x*2.*PI)*unit/(2.0*PI);
+    float ny = cos(p.y*2.*PI)*unit/(2.0*PI);
+    float nz = sin(p.x*2.*PI)*unit/(2.0*PI);
+    float nw = sin(p.y*2.*PI)*unit/(2.0*PI);
+    float4 pos = float4(nx,ny,nz,nw);
+    return type == 1 ? simplexNoise4(pos) :
+        type == 2 ? simplexfbm4d1(pos) :
+        type == 3 ? simplexfbm4d2(pos) :
+        simplexfbm4d3(pos);
 }
 
 #endif
