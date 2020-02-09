@@ -139,6 +139,7 @@ Shader "Cloud/Cloud0" {
                 float ridgedNoiseShape = ridgedNoiseShapeFbm(uv, delta);
                 float noiseShape = noiseShapeFbm(uv, delta);
                 //以noiseShape的采样形状为基础形状(如果noiseShape为0或负数则相乘也不会出现云彩。)
+                //云彩部分通过多个采样信号的叠加（并且每个信号有不同的运动速度）
                 noiseShape *= ridgedNoiseShape + noiseShape;
 
                 float noiseColor = noiseColorFbm(uv, delta);
