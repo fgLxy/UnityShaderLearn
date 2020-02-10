@@ -44,8 +44,8 @@
 
             fixed4 frag(v2f input):SV_TARGET {
                 fixed2 uv = fixed2(input.texcoord.x * (_W/_H), input.texcoord.y);
-                fixed4 backgroundColor = lerp(_BackgroundRed1,_BackgroundRed2, uv.y);
-                fixed4 yellowColor = lerp(_Yellow1, _Yellow2, uv.y);
+                fixed a = (sin(.3*UNITY_PI*(uv.x + uv.y - 10*_Time.x + UNITY_PI*sin(1.5*uv.x + 4.5*uv.y))) + 1) /2;
+                uv *= 1. + (.036 - .036 * a);
                 int result = 0;
                 result += drawFiveCorner(fixed2(.25,.7), uv, 0.06, 0.15);
 
@@ -54,7 +54,12 @@
                 result += drawFiveCorner(fixed2(.55,.6), uv, 0.02, 0.05);
                 result += drawFiveCorner(fixed2(.45,.45), uv, 0.02, 0.05);
                 
-                return result > 0 ? yellowColor : backgroundColor;
+                // float a = sin((uv.x + uv.y - _Time.x * .75 + sin(1.5 * uv.x + 4.5 * uv.y) * UNITY_PI * .3)
+                //   * UNITY_PI * .6);
+                
+                fixed4 backgroundColor = lerp(_BackgroundRed1,_BackgroundRed2, uv.y);
+                fixed4 yellowColor = lerp(_Yellow1, _Yellow2, uv.y);
+                return (1+a)*(result > 0 ? yellowColor : backgroundColor)/2;
             }
 
             
