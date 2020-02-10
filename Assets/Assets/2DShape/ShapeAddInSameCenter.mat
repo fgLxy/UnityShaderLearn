@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPolygon
-  m_Shader: {fileID: 4800000, guid: fb04df6547200f046a2b7336085df8c4, type: 3}
+  m_Name: ShapeAddInSameCenter
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -65,18 +65,13 @@ Material:
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
-    - _N: 5
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _R: 0.234
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Width: 0.00164
     - _ZWrite: 1
     m_Colors:
-    - _BackgroundColor: {r: 0.2735849, g: 0.13808295, b: 0.13808295, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _LineColor: {r: 0.6684466, g: 0.754717, b: 0.28835887, a: 1}
