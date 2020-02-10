@@ -66,11 +66,8 @@ vec2 hash21(float p)
 ///  2 out, 2 in...
 vec2 hash22(vec2 p)
 {
-	const vec2 k = vec2( 0.3183099, 0.3678794 );
-    p = p*k + p.yx;
-    return -1.0 + 2.0*fract( 16.0 * k*fract( p.x*p.y*(p.x+p.y)) );
-    // p = vec2(dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)));
-	// return -1.0 + 2.0*fract(sin(p)*43758.5453123);
+    p = vec2( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)) );
+	return -1.0 + 2.0*fract(sin(p)*43758.5453123);
 }
 
 //----------------------------------------------------------------------------------------
@@ -103,12 +100,13 @@ vec3 hash32(vec2 p)
 
 //----------------------------------------------------------------------------------------
 ///  3 out, 3 in...
-vec3 hash33(vec3 p3)
+vec3 hash33(vec3 p)
 {
-	p3 = fract(p3 * vec3(.1031, .1030, .0973));
-    p3 += dot(p3, p3.yxz+33.33);
-    return fract((p3.xxy + p3.yxx)*p3.zyx);
-
+	p = float3( dot(p,float3(127.1,311.7, 74.7)),
+			  dot(p,float3(269.5,183.3,246.1)),
+			  dot(p,float3(113.5,271.9,124.6)));
+    
+    return -1.0 + 2.0 * frac(sin(p)*43758.5453123);
 }
 
 //----------------------------------------------------------------------------------------
@@ -145,8 +143,8 @@ vec4 hash43(vec3 p)
 vec4 hash44(vec4 p4)
 {
 	p4 = fract(p4  * vec4(.1031, .1030, .0973, .1099));
-    p4 += dot(p4, p4.wzxy+33.33);
-    return fract((p4.xxyz+p4.yzzw)*p4.zywx);
+	p4 += dot(p4, p4.wzxy+19.19);
+	return fract((p4.xxyz+p4.yzzw)*p4.zywx);
 }
 
 #endif

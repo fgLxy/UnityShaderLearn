@@ -87,19 +87,19 @@ float simplexNoise2(float2 p) {
 
     float2 pf = p - simplexTransform(i, k2);
     float2 mid = pf.x > pf.y ? v3 : v2;
-    float2 a = pf - simplexTransform(v1, k2);
+    float2 a = pf;// - simplexTransform(v1, k2);
     float2 b = pf - simplexTransform(mid, k2);
     float2 c = pf - simplexTransform(v4, k2);
 
     // (r^2 - dist^2)^4 * dot(dist, grad); 
-    float3 h = max(0.5 - float3(dot(a,a), dot(b,b), dot(c,c)), 0.);//r^2 - dist^2
+    float3 h = max(0.6 - float3(dot(a,a), dot(b,b), dot(c,c)), 0.);//r^2 - dist^2
     //r^2取0.5时上述公式最大值大约在1/70，乘70可放缩到0~1区间
     return dot(h*h*h*h*float3(
             dot(a,hash22(i+v1)), 
             dot(b,hash22(i+mid)),
             dot(c,hash22(i+v4))
             ), 
-            float3(70.0,70.0,70.0));
+            float3(24.51,24.51,24.51));
 }
 
 float simplexNoise4(float4 p) {
