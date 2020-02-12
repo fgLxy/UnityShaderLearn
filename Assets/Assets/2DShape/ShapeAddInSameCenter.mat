@@ -67,19 +67,27 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ShapeR0: 0.171
-    - _ShapeR1: 0.072
-    - _ShapeR2: 0.122
-    - _ShapeR3: 0.028
+    - _ShapeR0: 0.239
+    - _ShapeR1: 0.032
+    - _ShapeR2: 0.012
+    - _ShapeR3: 0
     - _ShapeType0: 0
-    - _ShapeType1: 3
-    - _ShapeType2: 4
+    - _ShapeType1: 7
+    - _ShapeType2: 3
     - _ShapeType3: 5
+    - _ShapeWHRate0: 0.72
+    - _ShapeWHRate1: 0.28
+    - _ShapeWHRate2: 0
+    - _ShapeWHRate3: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Width: 0.0024
+    - _WHRate0: 0.76
+    - _WHRate1: 0.6
+    - _WHRate2: 0.72
+    - _WHRate3: 1
+    - _Width: 0.0016
     - _ZWrite: 1
     m_Colors:
     - _BackgroundColor: {r: 0, g: 0, b: 0, a: 1}

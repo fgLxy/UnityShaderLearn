@@ -44,7 +44,9 @@
 
             fixed4 frag(v2f input):SV_TARGET {
                 fixed2 uv = fixed2(input.texcoord.x * (_W/_H), input.texcoord.y);
-                fixed a = (sin(.3*UNITY_PI*(uv.x + uv.y - 10*_Time.x + UNITY_PI*sin(1.5*uv.x + 4.5*uv.y))) + 1) /2;
+                //旗帜飘动借鉴的https://www.shadertoy.com/view/3lyGRd
+                //想要看起来真实，需要让坐标本身抖动起来。同时颜色敏感应该也要根据抖动变化
+                fixed a = (sin(.3*UNITY_PI*(uv.x + uv.y - 40*_Time.x + UNITY_PI*sin(1.5*uv.x + 4.5*uv.y))) + 1) /2;
                 uv *= 1. + (.036 - .036 * a);
                 int result = 0;
                 result += drawFiveCorner(fixed2(.25,.7), uv, 0.06, 0.15);
