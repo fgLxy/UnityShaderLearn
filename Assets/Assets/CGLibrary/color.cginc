@@ -38,6 +38,7 @@
         fixed mx = max(r, max(g,b));
         fixed mn = min(r, min(g,b));
         fixed v = mx;
+        if (mx == mn || mx == 0) return fixed3(0,0,v);
         fixed s = (mx - mn) / mx;
         fixed h;
         if(rgb.r == mx) h = 60*((g-b)/(mx-mn));
@@ -49,7 +50,7 @@
     }
 
     fixed3 hsvOffset(fixed3 hsv, fixed3 offset) {
-        offset.y = hsv.y <= 0.03 ? 0 : offset.y;
+        offset.y = hsv.y <= 0.1 ? 0 : offset.y;
         hsv += offset;
         int multi = hsv.x / 360;
         hsv.x -= multi*360;
