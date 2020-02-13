@@ -26,8 +26,6 @@ public class ColorChanger : MonoBehaviour {
 
     private MeshRenderer mr;
 
-    private int counter = 0;
-
     private IEnumerator t;
     private Color[, ] colors;
 
@@ -88,9 +86,8 @@ public class ColorChanger : MonoBehaviour {
                     if (counter % perCount == 0) yield return null;
                 }
             }
-            maxV = (aV / (pixelCount)) * 0.5f;
+            maxV = (aV / (pixelCount)) * 0.8f;
             maxS = (aS / (pixelCount)) * 0.5f;
-            Debug.Log ("maxV:" + maxV + ",maxS:" + maxS);
         }
         MaterialPropertyBlock materialProperties = new MaterialPropertyBlock ();
         mr.GetPropertyBlock (materialProperties);
