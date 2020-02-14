@@ -11,6 +11,10 @@ Shader "DeferrendRender/Outline"
         _MainTex ("MainTex", 2D) = "white" {}
         _SourceTex ("SourceTex", 2D) = "white" {}
         _EdgeColor ("EdgeColor", Color) = (0,0,0,1)
+        _BackgroundColor ("BackgroundColor", Color) = (1,1,1,1)
+        _FixedRate ("FixedRate", Range(0,1)) = 0.5
+        _ThresholdN ("ThresholdN", Range(0,1)) = 0.1
+        _ThresholdD ("ThresholdD", Range(0,1)) = 0.1
     }
     SubShader
     {
@@ -29,6 +33,11 @@ Shader "DeferrendRender/Outline"
         sampler2D _CameraDepthNormalsTexture;
 
         fixed4 _EdgeColor;
+        fixed4 _BackgroundColor;
+
+        fixed _FixedRate;
+        fixed _ThresholdN;
+        fixed _ThresholdD;
 
         v2f vert(appdata_base input) {
             v2f output;
@@ -128,11 +137,11 @@ Shader "DeferrendRender/Outline"
                 result[0] += datas[4].x < checkData(datas[j], j, input.uv[j], 0) ? 1 : 0;
                 result[1] += datas[4].z < checkData(datas[j], j, input.uv[j], 1) ? 1 : 0;
             }
-            fixed4 c = tex2D(_SourceTex, input.uv[4]);
+            fixed4 c = lerp(tex2D(_SourceTex, input.uv[4]), _BackgroundColor, _FixedRate);
             if (result[0] > 0 && result[1] > 0) {
                 return c;
             }
-            if (datas[4].x < 0.1 && datas[4].z < 0.1) {
+            if (datas[4].x <= _ThresholdN && datas[4].z <= _ThresholdD) {
                 return c;
             }
             return _EdgeColor;

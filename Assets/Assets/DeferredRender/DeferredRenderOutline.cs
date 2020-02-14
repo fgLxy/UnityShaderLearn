@@ -2,7 +2,16 @@
 
 public class DeferredRenderOutline : MonoBehaviour
 {
-    public Shader shader;
+    public Shader shader;  
+
+    public Color EdgeColor;
+    public Color BackgroundColor;
+    [Range(0,1)]
+    public float FixedRate;
+    [Range(0,1)]
+    public float ThresholdN;
+    [Range(0,1)]
+    public float ThresholdD;
 
     private Material mr;
     private void Awake() {
@@ -24,7 +33,14 @@ public class DeferredRenderOutline : MonoBehaviour
             Graphics.Blit(src,dest);
             return;
         }
+        
         mr.SetTexture("_SourceTex", src);
+        mr.SetColor("_EdgeColor", EdgeColor);
+        mr.SetColor("_BackgroundColor", BackgroundColor);
+        mr.SetFloat("_FixedRate", FixedRate);
+        mr.SetFloat("_ThresholdN", ThresholdN);
+        mr.SetFloat("_ThresholdD", ThresholdD);
+
         RenderTexture r1 = RenderTexture.GetTemporary(src.width, src.height,0,src.format);
         RenderTexture r2 = RenderTexture.GetTemporary(src.width, src.height,0,src.format);
 
