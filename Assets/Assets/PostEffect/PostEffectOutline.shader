@@ -50,7 +50,7 @@ Shader "PostEffect/Outline" {
             int i,j;
             for (i = 0; i < 3; i++) {
                 for (j = 0; j < 3; j++) {
-                    output.uv[i+j*3] = uv + _MainTex_TexelSize.xy * fixed2(j-1,i-1) *_ScanStep;
+                    output.uv[i*3+j] = uv + _MainTex_TexelSize.xy * fixed2(j-1,i-1) *_ScanStep;
                 }
             }
             return output;
