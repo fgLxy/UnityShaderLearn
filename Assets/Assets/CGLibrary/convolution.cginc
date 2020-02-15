@@ -6,6 +6,12 @@
 fixed toGray(fixed4 c) {
     return c.b*0.114 +c.g*0.587 + c.r*0.299;
 }
+/**
+计算高斯模糊点的权重
+**/
+fixed gaussianNxN(fixed sd, fixed i, fixed j) {
+    return (1/(sd*sd*UNITY_TWO_PI))*exp(-(i*i+j*j)/(2*sd*sd));
+}
 
 fixed gaussian(fixed3 input[3]) {
     fixed3 GaussianMatrix[3];

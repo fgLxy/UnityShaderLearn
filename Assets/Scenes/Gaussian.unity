@@ -262,7 +262,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b06fa3f92d800c246a4394e5b08f65ef, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -318,7 +318,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 5993065f3eca5e649b2157ae75c7790f, type: 3}
-  tex: {fileID: 2800000, guid: 036dba73abb8c4649bca19c03a421d08, type: 3}
+  tex: {fileID: 2800000, guid: 256557359ec40b2419c20ad7c0987748, type: 3}
+  gaussianCount: 5
+  R: 0.04
+  ScanStep: 0
+  GaussianR: 10
+  StandardD: 1.5
 --- !u!1 &1480488939
 GameObject:
   m_ObjectHideFlags: 0

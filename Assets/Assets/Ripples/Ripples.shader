@@ -37,6 +37,7 @@ Shader "Ripples/Circle" {
             }
 
             fixed4 frag(v2f input):SV_TARGET {
+                //TODO 后面可以改成，涟漪随时间变化半径增大，变形变弱，最终逐渐消散
                 fixed time = frac(_Time.x);
                 fixed speed = time*2*_Speed;
                 //抖动位移计算
