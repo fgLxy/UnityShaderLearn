@@ -39,12 +39,16 @@ Shader "Ripples/Circle" {
             fixed4 frag(v2f input):SV_TARGET {
                 fixed time = frac(_Time.x);
                 fixed speed = time*2*_Speed;
+                //抖动位移计算
                 fixed xyDelta = lerp(sin(time*UNITY_TWO_PI*1000)/100, 0, saturate(speed));
                 fixed2 uv = input.uv - 0.5;
                 uv = fixed2(uv.x, uv.y);
                 fixed l = length(uv);
+                //涟漪中心位置为0，距离中心越远delta越大，上限为1
                 fixed delta = saturate(abs(l-speed)/_R);
+                //涟漪区域像素采样进行偏移。越靠近中心偏移越小，越靠近边界偏移越大
                 l += sin(delta*UNITY_PI)*0.1*((l-speed)/abs(l-speed));
+                //抖动效果，沿着对角线方向抖动
                 uv = normalize(uv)*l+xyDelta;
                 uv += 0.5;
                 //涟漪区域的渐变度
