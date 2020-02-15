@@ -20,7 +20,7 @@ public class PostEffectOutlineCamera : MonoBehaviour {
         RenderTexture rt1 = RenderTexture.GetTemporary(src.width, src.height, 0, src.format);  
         RenderTexture rt2 = RenderTexture.GetTemporary(src.width, src.height, 0, src.format);
         Graphics.Blit(src, rt1);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < shader.passCount; i++) {
             Graphics.Blit(rt1, rt2, m, i);
             Graphics.Blit(rt2, rt1);
         }
