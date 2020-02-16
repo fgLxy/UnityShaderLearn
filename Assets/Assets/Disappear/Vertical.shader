@@ -4,6 +4,7 @@
         _Speed ("Speed", Range(0,1)) = 0.5
     }
     SubShader {
+        Tags{"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
         CGINCLUDE
         #include "UnityCG.cginc"
 
@@ -27,12 +28,13 @@
             if (1-input.uv.y<_Speed*_Time.y) {
                 discard;
             }
+            c.a = saturate(lerp(0,1,(1-input.uv.y-_Speed*_Time.y)/max((1-_Speed*_Time.y)/2,0.0001)));
             return c;
         }
         ENDCG
 
         Pass {
-            Blend SrcAlpha Zero
+            Blend SrcAlpha OneMinusSrcAlpha
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
