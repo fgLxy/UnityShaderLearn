@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Disappear
-  m_Shader: {fileID: 4800000, guid: 384e28f3f0c2d8744b0e42d3f0fcb422, type: 3}
+  m_Name: Appear
+  m_Shader: {fileID: 4800000, guid: e96a36b467359f749a075e9a409f4a14, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
